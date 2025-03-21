@@ -12,11 +12,14 @@ import us.timinc.mc.cobblemon.unchained.modules.ShinyBooster
 object UnchainedMod {
     @Suppress("unused", "MemberVisibilityCanBePrivate")
     const val MOD_ID = "unchained"
+    var eventsInitialized = false
 
     @EventBusSubscriber
     object Registration {
         @SubscribeEvent
         fun onInitialize(e: ServerStartedEvent) {
+            if (eventsInitialized) return
+            eventsInitialized = true
             ShinyBooster.initialize()
             HiddenBooster.initialize()
             IvBooster.initialize()

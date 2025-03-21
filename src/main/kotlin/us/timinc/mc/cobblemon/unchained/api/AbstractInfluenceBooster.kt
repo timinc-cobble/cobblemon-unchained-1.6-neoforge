@@ -29,5 +29,11 @@ abstract class AbstractInfluenceBooster(
         boost(action, pokemon, species, form, points)
     }
 
-    abstract fun boost(action: PokemonSpawnAction, pokemon: Pokemon, species: ResourceLocation, form: String, points: Int)
+    abstract fun boost(
+        action: PokemonSpawnAction,
+        pokemon: Pokemon,
+        species: ResourceLocation,
+        form: String,
+        points: Int,
+    )
 }

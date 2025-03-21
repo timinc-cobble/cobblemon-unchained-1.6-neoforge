@@ -7,7 +7,7 @@ import us.timinc.mc.cobblemon.unchained.config.ConfigBuilder
 
 abstract class AbstractBooster<T : AbstractBoostConfig>(
     val name: String,
-    val configClass: Class<T>
+    val configClass: Class<T>,
 ) {
     val logger: Logger = LogManager.getLogger("$MOD_ID/$name")
     lateinit var config: T

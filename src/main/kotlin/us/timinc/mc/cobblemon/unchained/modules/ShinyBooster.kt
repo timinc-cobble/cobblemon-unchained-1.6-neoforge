@@ -1,8 +1,8 @@
 package us.timinc.mc.cobblemon.unchained.modules
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
-import us.timinc.mc.cobblemon.unchained.api.AbstractBooster
 import us.timinc.mc.cobblemon.unchained.api.AbstractBoostConfig
+import us.timinc.mc.cobblemon.unchained.api.AbstractBooster
 
 object ShinyBooster : AbstractBooster<ShinyBoostConfig>(
     "shinyBooster",

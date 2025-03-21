@@ -35,6 +35,6 @@ side = "BOTH"
 [[dependencies.unchained]]
 modId = "cobbled_counter"
 mandatory = true
-versionRange = "[1.6-neoforge-1.3.2,)"
+versionRange = "[1.6-neoforge-1.3.3,)"
 ordering = "AFTER"
 side = "BOTH"

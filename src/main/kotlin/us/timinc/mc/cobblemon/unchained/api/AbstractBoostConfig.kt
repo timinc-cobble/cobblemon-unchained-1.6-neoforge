@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer
 import us.timinc.mc.cobblemon.counter.api.CounterType
 import us.timinc.mc.cobblemon.counter.extensions.getCounterManager
 
-abstract class AbstractBoostConfig {
+abstract class AbstractBoostConfig(val defaultValue: Double = 0.0) {
     val debug: Boolean = false
     val blacklist = mutableSetOf<String>()
     val whitelist = mutableSetOf<String>()
@@ -17,9 +17,9 @@ abstract class AbstractBoostConfig {
     abstract val koCountPoints: Int
     abstract val captureStreakPoints: Int
     abstract val captureCountPoints: Int
-    abstract val thresholds: Map<Int, Int>
+    abstract val thresholds: Map<Int, Double>
 
-    fun getPointsFromThreshold(player: ServerPlayer, species: ResourceLocation, form: String): Int {
+    fun getPointsFromThreshold(player: ServerPlayer, species: ResourceLocation, form: String): Double {
         val calcForm = if (careAboutForms) form else null
         val counterManager = player.getCounterManager()
 
@@ -32,11 +32,11 @@ abstract class AbstractBoostConfig {
         val points =
             (koStreak * koStreakPoints) + (koCount * koCountPoints) + (captureStreak * captureStreakPoints) + (captureCount * captureCountPoints)
 
-        return thresholds.maxOfOrNull { if (it.key <= points) it.value else 0 } ?: 0
+        return thresholds.maxOfOrNull { if (it.key <= points) it.value else defaultValue } ?: defaultValue
     }
 
-    fun getPointsFromThreshold(player: ServerPlayer, pokemon: Pokemon): Int {
-        if (!Util.matchesList(pokemon, whitelist, blacklist)) return 0
+    fun getPointsFromThreshold(player: ServerPlayer, pokemon: Pokemon): Double {
+        if (!Util.matchesList(pokemon, whitelist, blacklist)) return 0.0
         return getPointsFromThreshold(player, pokemon.species.resourceIdentifier, pokemon.form.name)
     }
 }

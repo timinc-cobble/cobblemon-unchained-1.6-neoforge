@@ -7,6 +7,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent
 import us.timinc.mc.cobblemon.unchained.modules.HiddenBooster
 import us.timinc.mc.cobblemon.unchained.modules.IvBooster
 import us.timinc.mc.cobblemon.unchained.modules.ShinyBooster
+import us.timinc.mc.cobblemon.unchained.modules.SpawnChainer
 
 @Mod(UnchainedMod.MOD_ID)
 object UnchainedMod {
@@ -23,6 +24,7 @@ object UnchainedMod {
             ShinyBooster.initialize()
             HiddenBooster.initialize()
             IvBooster.initialize()
+            SpawnChainer.initialize()
         }
     }
 }

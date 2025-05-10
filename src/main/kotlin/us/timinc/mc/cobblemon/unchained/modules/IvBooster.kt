@@ -8,9 +8,9 @@ import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
+import us.timinc.mc.cobblemon.unchained.api.AbstractActionInfluenceBooster
 import us.timinc.mc.cobblemon.unchained.api.AbstractBoostConfig
 import us.timinc.mc.cobblemon.unchained.api.AbstractBooster
-import us.timinc.mc.cobblemon.unchained.api.AbstractInfluenceBooster
 import kotlin.math.min
 
 object IvBooster : AbstractBooster<IvBoosterConfig>(
@@ -26,14 +26,15 @@ class IvBoosterInfluence(
     override val player: ServerPlayer,
     override val config: IvBoosterConfig,
     override val debug: (String) -> Unit,
-) : AbstractInfluenceBooster(player, config, debug) {
-    override fun boost(
+) : AbstractActionInfluenceBooster(player, config, debug) {
+    override fun boostAction(
         action: PokemonSpawnAction,
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Int,
+        points: Double,
     ) {
+        val points = points.toInt()
         debug("${player.name.string} wins with $points points, $points perfect IVs")
         if (points <= 0) {
             debug("conclusion: player didn't get any perfect IVs")
@@ -66,10 +67,10 @@ class IvBoosterInfluence(
     }
 }
 
-class IvBoosterConfig : AbstractBoostConfig() {
+class IvBoosterConfig : AbstractBoostConfig(1.0) {
     override val koStreakPoints = 0
     override val koCountPoints = 0
     override val captureStreakPoints = 1
     override val captureCountPoints = 0
-    override val thresholds: Map<Int, Int> = mutableMapOf(Pair(5, 1), Pair(10, 2), Pair(20, 3), Pair(30, 4))
+    override val thresholds: Map<Int, Double> = mutableMapOf(Pair(5, 1.0), Pair(10, 2.0), Pair(20, 3.0), Pair(30, 4.0))
 }

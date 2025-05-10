@@ -7,7 +7,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 
-abstract class AbstractInfluenceBooster(
+abstract class AbstractActionInfluenceBooster(
     open val player: ServerPlayer,
     open val config: AbstractBoostConfig,
     open val debug: (String) -> Unit,
@@ -26,14 +26,14 @@ abstract class AbstractInfluenceBooster(
 
         val points = config.getPointsFromThreshold(player, species, form)
 
-        boost(action, pokemon, species, form, points)
+        boostAction(action, pokemon, species, form, points)
     }
 
-    abstract fun boost(
+    abstract fun boostAction(
         action: PokemonSpawnAction,
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Int,
+        points: Double,
     )
 }

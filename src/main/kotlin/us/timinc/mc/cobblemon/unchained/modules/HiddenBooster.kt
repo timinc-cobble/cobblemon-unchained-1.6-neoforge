@@ -6,9 +6,9 @@ import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
+import us.timinc.mc.cobblemon.unchained.api.AbstractActionInfluenceBooster
 import us.timinc.mc.cobblemon.unchained.api.AbstractBoostConfig
 import us.timinc.mc.cobblemon.unchained.api.AbstractBooster
-import us.timinc.mc.cobblemon.unchained.api.AbstractInfluenceBooster
 import kotlin.random.Random.Default.nextInt
 
 object HiddenBooster : AbstractBooster<HiddenBoosterConfig>(
@@ -25,13 +25,13 @@ class HiddenBoosterInfluence(
     override val config: HiddenBoosterConfig,
     override val debug: (String) -> Unit,
 ) :
-    AbstractInfluenceBooster(player, config, debug) {
-    override fun boost(
+    AbstractActionInfluenceBooster(player, config, debug) {
+    override fun boostAction(
         action: PokemonSpawnAction,
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Int,
+        points: Double,
     ) {
         val totalMarbles = config.marbles
         val ability = pokemon.form.abilities.mapping[Priority.LOW]?.random()?.template?.name
@@ -41,7 +41,7 @@ class HiddenBoosterInfluence(
             return
         }
 
-        if (points == 0) {
+        if (points == 0.0) {
             debug("conclusion: player hasn't unlocked hidden ability chance")
             return
         }
@@ -63,11 +63,11 @@ class HiddenBoosterInfluence(
     }
 }
 
-class HiddenBoosterConfig : AbstractBoostConfig() {
+class HiddenBoosterConfig : AbstractBoostConfig(1.0) {
     override val koStreakPoints = 100
     override val koCountPoints = 1
     override val captureStreakPoints = 0
     override val captureCountPoints = 0
-    override val thresholds: Map<Int, Int> = mutableMapOf(99 to 1)
+    override val thresholds: Map<Int, Double> = mutableMapOf(99 to 1.0)
     val marbles = 5
 }

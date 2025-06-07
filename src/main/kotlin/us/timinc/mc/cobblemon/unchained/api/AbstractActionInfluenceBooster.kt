@@ -8,12 +8,13 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 
 abstract class AbstractActionInfluenceBooster(
-    open val player: ServerPlayer,
     open val config: AbstractBoostConfig,
     open val debug: (String) -> Unit,
+    open val player: ServerPlayer? = null,
 ) : SpawningInfluence {
     override fun affectAction(action: SpawnAction<*>) {
         if (action !is PokemonSpawnAction) return
+        val player = player ?: action.ctx.cause.entity as? ServerPlayer ?: return
         val pokemon = action.props.create()
         val species = pokemon.species.resourceIdentifier
         val form = pokemon.form.name
@@ -26,7 +27,7 @@ abstract class AbstractActionInfluenceBooster(
 
         val points = config.getPointsFromThreshold(player, species, form)
 
-        boostAction(action, pokemon, species, form, points)
+        boostAction(action, pokemon, species, form, points, player)
     }
 
     abstract fun boostAction(
@@ -35,5 +36,6 @@ abstract class AbstractActionInfluenceBooster(
         species: ResourceLocation,
         form: String,
         points: Double,
+        player: ServerPlayer,
     )
 }

@@ -2,6 +2,7 @@ package us.timinc.mc.cobblemon.unchained.modules
 
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.spawning.BestSpawner.fishingSpawner
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
 import com.cobblemon.mod.common.pokemon.IVs
@@ -18,25 +19,27 @@ object IvBooster : AbstractBooster<IvBoosterConfig>(
     IvBoosterConfig::class.java
 ) {
     override fun subInit() {
-        PlayerSpawnerFactory.influenceBuilders.add { IvBoosterInfluence(it, config, ::debug) }
+        PlayerSpawnerFactory.influenceBuilders.add { IvBoosterInfluence(config, ::debug, it) }
+        fishingSpawner.influences.add(IvBoosterInfluence(config, ::debug))
     }
 }
 
 class IvBoosterInfluence(
-    override val player: ServerPlayer,
     override val config: IvBoosterConfig,
     override val debug: (String) -> Unit,
-) : AbstractActionInfluenceBooster(player, config, debug) {
+    override val player: ServerPlayer? = null,
+) : AbstractActionInfluenceBooster(config, debug, player) {
     override fun boostAction(
         action: PokemonSpawnAction,
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
         points: Double,
+        player: ServerPlayer,
     ) {
-        val points = points.toInt()
-        debug("${player.name.string} wins with $points points, $points perfect IVs")
-        if (points <= 0) {
+        val intPoints = points.toInt()
+        debug("${player.name.string} wins with $intPoints points, $intPoints perfect IVs")
+        if (intPoints <= 0) {
             debug("conclusion: player didn't get any perfect IVs")
             return
         }
@@ -56,14 +59,14 @@ class IvBoosterInfluence(
             }
         }
 
-        while (madePerfect.size < min(points, Stats.PERMANENT.size)) {
+        while (madePerfect.size < min(intPoints, Stats.PERMANENT.size)) {
             val taken = remainingStats.random()
             madePerfect.add(taken)
             remainingStats.remove(taken)
             action.props.ivs!![taken] = IVs.MAX_VALUE
         }
 
-        debug("conclusion: set $points IVs to perfect $madePerfect")
+        debug("conclusion: set $intPoints IVs to perfect $madePerfect")
     }
 }
 

@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import us.timinc.mc.cobblemon.counter.api.CounterType
 import us.timinc.mc.cobblemon.counter.extensions.getCounterManager
+import us.timinc.mc.cobblemon.counter.registry.CounterTypes.CAPTURE
+import us.timinc.mc.cobblemon.counter.registry.CounterTypes.KO
 
 abstract class AbstractBoostConfig(val defaultValue: Double = 0.0) {
     val debug: Boolean = false
@@ -23,11 +25,11 @@ abstract class AbstractBoostConfig(val defaultValue: Double = 0.0) {
         val calcForm = if (careAboutForms) form else null
         val counterManager = player.getCounterManager()
 
-        val koStreak = counterManager.getStreakCount(CounterType.KO, species, calcForm)
-        val koCount = counterManager.getCount(CounterType.KO, species, calcForm)
+        val koStreak = counterManager.getStreakScore(KO, species, calcForm)
+        val koCount = counterManager.getCountScore(KO, species, calcForm)
 
-        val captureStreak = counterManager.getStreakCount(CounterType.CAPTURE, species, calcForm)
-        val captureCount = counterManager.getCount(CounterType.CAPTURE, species, calcForm)
+        val captureStreak = counterManager.getStreakScore(CAPTURE, species, calcForm)
+        val captureCount = counterManager.getCountScore(CAPTURE, species, calcForm)
 
         val points =
             (koStreak * koStreakPoints) + (koCount * koCountPoints) + (captureStreak * captureStreakPoints) + (captureCount * captureCountPoints)

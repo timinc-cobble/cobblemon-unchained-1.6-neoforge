@@ -5,7 +5,6 @@ package us.timinc.mc.cobblemon.unchained.api
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
-import us.timinc.mc.cobblemon.counter.api.CounterType
 import us.timinc.mc.cobblemon.counter.extensions.getCounterManager
 import us.timinc.mc.cobblemon.counter.registry.CounterTypes.CAPTURE
 import us.timinc.mc.cobblemon.counter.registry.CounterTypes.KO

@@ -1,6 +1,7 @@
 package us.timinc.mc.cobblemon.unchained.modules
 
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.api.spawning.BestSpawner.fishingSpawner
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -16,22 +17,24 @@ object HiddenBooster : AbstractBooster<HiddenBoosterConfig>(
     HiddenBoosterConfig::class.java
 ) {
     override fun subInit() {
-        PlayerSpawnerFactory.influenceBuilders.add { HiddenBoosterInfluence(it, config, ::debug) }
+        PlayerSpawnerFactory.influenceBuilders.add { HiddenBoosterInfluence(config, ::debug, it) }
+        fishingSpawner.influences.add(HiddenBoosterInfluence(config, ::debug))
     }
 }
 
 class HiddenBoosterInfluence(
-    override val player: ServerPlayer,
     override val config: HiddenBoosterConfig,
     override val debug: (String) -> Unit,
+    override val player: ServerPlayer? = null,
 ) :
-    AbstractActionInfluenceBooster(player, config, debug) {
+    AbstractActionInfluenceBooster(config, debug, player) {
     override fun boostAction(
         action: PokemonSpawnAction,
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
         points: Double,
+        player: ServerPlayer,
     ) {
         val totalMarbles = config.marbles
         val ability = pokemon.form.abilities.mapping[Priority.LOW]?.random()?.template?.name

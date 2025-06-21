@@ -1,9 +1,8 @@
 package us.timinc.mc.cobblemon.unchained
 
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
+import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import net.neoforged.fml.common.Mod
-import net.neoforged.neoforge.event.server.ServerStartedEvent
 import us.timinc.mc.cobblemon.unchained.modules.HiddenBooster
 import us.timinc.mc.cobblemon.unchained.modules.IvBooster
 import us.timinc.mc.cobblemon.unchained.modules.ShinyBooster
@@ -13,14 +12,9 @@ import us.timinc.mc.cobblemon.unchained.modules.SpawnChainer
 object UnchainedMod {
     @Suppress("unused", "MemberVisibilityCanBePrivate")
     const val MOD_ID = "unchained"
-    var eventsInitialized = false
 
-    @EventBusSubscriber
-    object Registration {
-        @SubscribeEvent
-        fun onInitialize(e: ServerStartedEvent) {
-            if (eventsInitialized) return
-            eventsInitialized = true
+    init {
+        PlatformEvents.SERVER_STARTED.subscribe(Priority.LOWEST) {
             ShinyBooster.initialize()
             HiddenBooster.initialize()
             IvBooster.initialize()

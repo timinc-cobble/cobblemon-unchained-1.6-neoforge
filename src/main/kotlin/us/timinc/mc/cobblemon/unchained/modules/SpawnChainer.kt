@@ -1,8 +1,10 @@
 package us.timinc.mc.cobblemon.unchained.modules
 
+import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.spawning.BestSpawner.fishingSpawner
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.server.level.ServerPlayer
 import us.timinc.mc.cobblemon.unchained.api.AbstractBoostConfig
@@ -15,7 +17,9 @@ object SpawnChainer : AbstractBooster<SpawnChainerConfig>(
 ) {
     override fun subInit() {
         PlayerSpawnerFactory.influenceBuilders.add { SpawnChainerInfluence(config, ::debug) }
-        fishingSpawner.influences.add(SpawnChainerInfluence(config, ::debug))
+        PlatformEvents.SERVER_STARTED.subscribe(Priority.LOWEST) { _ ->
+            fishingSpawner.influences.add(SpawnChainerInfluence(config, ::debug))
+        }
     }
 }
 

@@ -21,7 +21,7 @@ object ShinyBooster : AbstractBooster<ShinyBoostConfig>(
     }
 }
 
-class ShinyBoostConfig : AbstractBoostConfig(1.0) {
+class ShinyBoostConfig : AbstractBoostConfig(0.0) {
     override val koStreakPoints = 1
     override val koCountPoints = 0
     override val captureStreakPoints = 0

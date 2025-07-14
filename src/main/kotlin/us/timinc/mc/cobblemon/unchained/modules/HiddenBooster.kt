@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.spawning.BestSpawner.fishingSpawner
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -18,7 +19,9 @@ object HiddenBooster : AbstractBooster<HiddenBoosterConfig>(
 ) {
     override fun subInit() {
         PlayerSpawnerFactory.influenceBuilders.add { HiddenBoosterInfluence(config, ::debug, it) }
-        fishingSpawner.influences.add(HiddenBoosterInfluence(config, ::debug))
+        PlatformEvents.SERVER_STARTED.subscribe(Priority.LOWEST) { _ ->
+            fishingSpawner.influences.add(HiddenBoosterInfluence(config, ::debug))
+        }
     }
 }
 
@@ -66,7 +69,7 @@ class HiddenBoosterInfluence(
     }
 }
 
-class HiddenBoosterConfig : AbstractBoostConfig(1.0) {
+class HiddenBoosterConfig : AbstractBoostConfig(0.0) {
     override val koStreakPoints = 100
     override val koCountPoints = 1
     override val captureStreakPoints = 0

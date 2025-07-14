@@ -1,10 +1,12 @@
 package us.timinc.mc.cobblemon.unchained.modules
 
+import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.spawning.BestSpawner.fishingSpawner
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnAction
 import com.cobblemon.mod.common.api.spawning.spawner.PlayerSpawnerFactory
+import com.cobblemon.mod.common.platform.events.PlatformEvents
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
@@ -20,7 +22,9 @@ object IvBooster : AbstractBooster<IvBoosterConfig>(
 ) {
     override fun subInit() {
         PlayerSpawnerFactory.influenceBuilders.add { IvBoosterInfluence(config, ::debug, it) }
-        fishingSpawner.influences.add(IvBoosterInfluence(config, ::debug))
+        PlatformEvents.SERVER_STARTED.subscribe(Priority.LOWEST) { _ ->
+            fishingSpawner.influences.add(IvBoosterInfluence(config, ::debug))
+        }
     }
 }
 
@@ -70,7 +74,7 @@ class IvBoosterInfluence(
     }
 }
 
-class IvBoosterConfig : AbstractBoostConfig(1.0) {
+class IvBoosterConfig : AbstractBoostConfig(0.0) {
     override val koStreakPoints = 0
     override val koCountPoints = 0
     override val captureStreakPoints = 1

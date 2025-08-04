@@ -35,7 +35,7 @@ abstract class AbstractActionInfluenceBooster(
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Double,
+        points: Float,
         player: ServerPlayer,
     )
 }

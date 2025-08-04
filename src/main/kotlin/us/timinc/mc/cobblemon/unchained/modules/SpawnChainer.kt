@@ -33,25 +33,25 @@ class SpawnChainerInfluence(
 
         val multiplier = config.getPointsFromThreshold(player, species, form)
 
-        if (multiplier != 1.0) {
+        if (multiplier != 1F) {
             debug("${detail.pokemon.originalString} spawn boosted by $multiplier for ${player.name.string}")
         }
         return (weight * multiplier).toFloat()
     }
 }
 
-class SpawnChainerConfig : AbstractBoostConfig(1.0) {
-    override val koStreakPoints: Int = 1
-    override val koCountPoints: Int = 0
-    override val captureStreakPoints: Int = 0
-    override val captureCountPoints: Int = 0
-    override val thresholds: Map<Int, Double> = mutableMapOf(
-        5 to 1.2,
-        10 to 1.5,
-        20 to 2.0,
-        30 to 2.5,
-        50 to 3.0,
-        75 to 3.5,
-        100 to 4.0,
+class SpawnChainerConfig : AbstractBoostConfig(1F) {
+    override val koStreakPoints = 1F
+    override val koCountPoints = 0F
+    override val captureStreakPoints = 0F
+    override val captureCountPoints = 0F
+    override val thresholds = mutableMapOf(
+        5 to 1.2F,
+        10 to 1.5F,
+        20 to 2.0F,
+        30 to 2.5F,
+        50 to 3.0F,
+        75 to 3.5F,
+        100 to 4.0F,
     )
 }

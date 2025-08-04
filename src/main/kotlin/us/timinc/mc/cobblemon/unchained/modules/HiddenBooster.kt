@@ -36,7 +36,7 @@ class HiddenBoosterInfluence(
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Double,
+        points: Float,
         player: ServerPlayer,
     ) {
         val totalMarbles = config.marbles
@@ -47,7 +47,7 @@ class HiddenBoosterInfluence(
             return
         }
 
-        if (points == 0.0) {
+        if (points == 0F) {
             debug("conclusion: player hasn't unlocked hidden ability chance")
             return
         }
@@ -69,11 +69,11 @@ class HiddenBoosterInfluence(
     }
 }
 
-class HiddenBoosterConfig : AbstractBoostConfig(0.0) {
-    override val koStreakPoints = 100
-    override val koCountPoints = 1
-    override val captureStreakPoints = 0
-    override val captureCountPoints = 0
-    override val thresholds: Map<Int, Double> = mutableMapOf(99 to 1.0)
+class HiddenBoosterConfig : AbstractBoostConfig() {
+    override val koStreakPoints = 100F
+    override val koCountPoints = 1F
+    override val captureStreakPoints = 0F
+    override val captureCountPoints = 0F
+    override val thresholds: Map<Int, Float> = mutableMapOf(99 to 1F)
     val marbles = 5
 }

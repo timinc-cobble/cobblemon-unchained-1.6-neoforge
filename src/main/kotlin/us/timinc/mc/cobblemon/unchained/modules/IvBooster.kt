@@ -38,7 +38,7 @@ class IvBoosterInfluence(
         pokemon: Pokemon,
         species: ResourceLocation,
         form: String,
-        points: Double,
+        points: Float,
         player: ServerPlayer,
     ) {
         val intPoints = points.toInt()
@@ -74,10 +74,10 @@ class IvBoosterInfluence(
     }
 }
 
-class IvBoosterConfig : AbstractBoostConfig(0.0) {
-    override val koStreakPoints = 0
-    override val koCountPoints = 0
-    override val captureStreakPoints = 1
-    override val captureCountPoints = 0
-    override val thresholds: Map<Int, Double> = mutableMapOf(Pair(5, 1.0), Pair(10, 2.0), Pair(20, 3.0), Pair(30, 4.0))
+class IvBoosterConfig : AbstractBoostConfig() {
+    override val koStreakPoints = 0F
+    override val koCountPoints = 0F
+    override val captureStreakPoints = 1F
+    override val captureCountPoints = 0F
+    override val thresholds: Map<Int, Float> = mutableMapOf(Pair(5, 1F), Pair(10, 2F), Pair(20, 3F), Pair(30, 4F))
 }
